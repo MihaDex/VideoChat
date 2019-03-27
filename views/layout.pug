@@ -1,5 +1,5 @@
 doctype html
-html
+html(ng-app="VideoChat")
   head
     title= title
     link(rel="stylesheet", href="/libs/bootstrap/css/bootstrap.min.css")
@@ -11,6 +11,9 @@ html
     block content
 
   script(src="/libs/angular/angular.js")
+  script(src="/libs/angular/angular-route.js")
+  script(src="/libs/angular/angular-sanitize.js")
   script(src="/libs/jquery/jquery.js")
   script(src="/libs/popperjs/popper.js")
   script(src="/libs/bootstrap/js/bootstrap.min.js")
+  script(src="/javascripts/app.js")

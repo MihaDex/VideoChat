@@ -1,15 +1,17 @@
 extends layout
 
 block content
-    h1.text-info.text-center Регистрация
-    .row.justify-content-center
-        form(action="").col-sm-6
-            .form-group
-                input#email.form-control(type="email", name="email", placeholder="Введите email")
-            .form-group
-                input#name.form-control(type="text", name="name", placeholder="Введите имя")
-            .form-group
-                input#password.form-control(type="password", name="password", placeholder="Введите пароль")
-            .form-group
-                input#confirmPassword.form-control(type="password", name="confirmPassword", placeholder="Повторите пароль")
-            button.btn.btn-info(type="submit") Зарегистрироватся
+    .container(ng-controller="registerCtrl")
+        h1.text-info.text-center Регистрация
+        .row.justify-content-center
+            form(ng-submit="onSubmit()").col-sm-6
+                .alert.alert-danger(role="alert", ng-show="formError") {{formError}}
+                .form-group
+                    input#email.form-control(type="email", name="email", placeholder="Введите email", ng-model="credentials.email")
+                .form-group
+                    input#name.form-control(type="text", name="name", placeholder="Введите имя", ng-model="credentials.name")
+                .form-group
+                    input#password.form-control(type="password", name="password", placeholder="Введите пароль", ng-model="credentials.password")
+                .form-group
+                    input#confirmPassword.form-control(type="password", name="confirmPassword", placeholder="Повторите пароль", ng-model="credentials.repeatPassword")
+                button.btn.btn-info(type="submit") Зарегистрироватся

@@ -1,17 +1,23 @@
 var express = require('express');
 var router = express.Router();
+var jwt = require('express-jwt');
+var auth = jwt({
+  secret: process.env.JWT_SECRET,
+  userProperty: 'payload'
+});
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Чат' });
-});
-router.get('/register', function(req, res, next) {
-  res.render('register', { title: 'Регистрация' });
-});
-router.get('/login', function(req, res, next) {
-  res.render('login', { title: 'Войти' });
-});
-router.get('/chat', function(req, res, next) {
-  res.render('chat', { title: 'Чат' });
-});
+var ctrlIndex = require('../controllers/index');
+var ctrlLogin = require('../controllers/login');
+var ctrlRegister = require('../controllers/register');
+var ctrlChat = require('../controllers/chat');
+
+/* GET  pages. */
+router.get('/',ctrlIndex.index);
+router.get('/register', ctrlRegister.index);
+router.get('/login', ctrlLogin.index);
+router.get('/chat', ctrlChat.index);
+
+/* POST  pages. */
+router.post('/register', ctrlRegister.register);
+
 module.exports = router;
