@@ -1,11 +1,13 @@
 extends layout
 
 block content
-    h1.text-info.text-center Войти
-    .row.justify-content-center
-        form(action="").col-sm-6
-            .form-group
-                input#email.form-control(type="email", name="email", placeholder="Введите email")
-            .form-group
-                input#password.form-control(type="password", name="password", placeholder="Введите пароль")
-            button.btn.btn-info(type="submit") Войти
+    .container(ng-controller="loginCtrl")
+        h1.text-info.text-center Войти
+        .row.justify-content-center
+            form(ng-submit="onSubmit()").col-sm-6
+                .alert.alert-danger(role="alert", ng-show="formError") {{formError}}
+                .form-group
+                    input#email.form-control(type="email", name="email", placeholder="Введите email", ng-model="credentials.email")
+                .form-group
+                    input#password.form-control(type="password", name="password", placeholder="Введите пароль", ng-model="credentials.password")
+                button.btn.btn-info(type="submit") Войти

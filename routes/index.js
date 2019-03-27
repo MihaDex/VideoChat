@@ -19,5 +19,5 @@ router.get('/chat', ctrlChat.index);
 
 /* POST  pages. */
 router.post('/register', ctrlRegister.register);
-
+router.post('/login', ctrlLogin.login);
 module.exports = router;

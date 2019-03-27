@@ -11,12 +11,12 @@ passport.use(new LocalStrategy({
       if (err) { return done(err); }
       if (!user) {
         return done(null, false, {
-          message: 'Incorrect username.'
+          message: 'Нет такого пользователя.'
         });
       }
       if (!user.validPassword(password)) {
         return done(null, false, {
-          message: 'Incorrect password.'
+          message: 'Неверный пароль.'
         });
       }
       return done(null, user);

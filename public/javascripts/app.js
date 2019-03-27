@@ -4,8 +4,20 @@
                 .controller('loginCtrl', loginCtrl)
                 .service('authentication', authentication)
 
-
         function authentication ($http, $window) {
+
+                    var goChat = function(){
+                      var token = getToken();
+                      if(isLoggedIn){
+                        $http.get('/chat',{
+                          headers: {
+                            Authorization: 'Bearer '+ getToken()
+                          }
+                        }).then(function(data){
+                          jQuery("body").html(data.data);
+                        })
+                      }
+                    }
   
                     var saveToken = function (token) {
                       $window.localStorage['VideoChat'] = token;
@@ -38,16 +50,12 @@
                       }
                     };
                 
-                    register = function(user) {
-                      return $http.post('/register', user).success(function(data){
-                        saveToken(data.token);
-                      });
+                    register = function(user,success,error) {
+                      return $http.post('/register', user).then(success,error);
                     };
                 
-                    login = function(user) {
-                      return $http.post('/login', user).success(function(data) {
-                        saveToken(data.token);
-                      });
+                    login = function(user,success,error) {
+                      return $http.post('/login', user).then(success,error);
                     };
                 
                     logout = function() {
@@ -55,6 +63,7 @@
                     };
                 
                     return {
+                      goChat : goChat,
                       currentUser : currentUser,
                       saveToken : saveToken,
                       getToken : getToken,
@@ -65,7 +74,7 @@
                     };
                   }
 
-        function registerCtrl($scope, $location, authentication) {
+        function registerCtrl($scope, authentication) {
                     
                     $scope.credentials = {
                       name : "",
@@ -75,10 +84,10 @@
                     
                     $scope.onSubmit = function () {
                         $scope.formError = "";
-                      if (!$scope.credentials.name || !$scope.credentials.email || !$scope.credentials.password || !$scope.credentials.repeatPassword ) {
+                      if (!$scope.credentials.name || !$scope.credentials.email || !$scope.credentials.password || !$scope.repeatPassword ) {
                         $scope.formError = "Заполните все поля, пожалуйста!";
                         return false;
-                      }else if($scope.credentials.password != $scope.credentials.repeatPassword){
+                      }else if($scope.credentials.password != $scope.repeatPassword){
                         $scope.formError = "Введенные пароли не совпадают";
                         return false;
                       }else {
@@ -89,30 +98,27 @@
                     $scope.doRegister = function() {
                         $scope.formError = "";
                       authentication
-                        .register($scope.credentials)
-                        .error(function(err){
-                            $scope.formError = err;
-                        })
-                        .then(function(){
-                          $location.path("/chat");
+                        .register($scope.credentials, function(data){
+                          authentication.saveToken(data.data.token);
+                          authentication.goChat();
+                        },function(err){
+                            $scope.formError = err.data.errmsg;
                         });
                     };
                 
                   }
 
-        function loginCtrl($scope, $location, authentication) {
+        function loginCtrl($scope, authentication) {
                     
                     $scope.credentials = {
                       email : "",
                       password : ""
                     };
-                
-                    $scope.returnPage = $location.search().page || '/';
-                
+
                     $scope.onSubmit = function () {
                         $scope.formError = "";
                       if (!$scope.credentials.email || !$scope.credentials.password) {
-                        $scope.formError = "All fields required, please try again";
+                        $scope.formError = "Заполните все поля, пожалуйста!";
                         return false;
                       } else {
                         $scope.doLogin();
@@ -122,13 +128,11 @@
                     $scope.doLogin = function() {
                         $scope.formError = "";
                       authentication
-                        .login($scope.credentials)
-                        .error(function(err){
-                            $scope.formError = err;
-                        })
-                        .then(function(){
-                          $location.search('page', null); 
-                          $location.path($scope.returnPage);
+                        .login($scope.credentials,function(data){
+                          authentication.saveToken(data.data.token);
+                          authentication.goChat();
+                        },function(err){
+                            $scope.formError = err.data.message;
                         });
                     };
                 
