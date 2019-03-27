@@ -1,15 +1,173 @@
 extends layout
 
 block content
-  h1.text-info.text-center Приложение Чат
-  .row.justify-content-between
-    .row
-        .col-md-6
-            p 123123
-    .row
-        .col-md-6
-            p 2124124124124
-    .row
-        .col-md-12
-            p 123123123234
-            
+ .card.rare-wind-gradient.chat-room
+  .card-body
+    // Grid row
+    .row.px-lg-2.px-2
+      // Grid column
+      .col-md-6.col-xl-4.px-0
+        h6.font-weight-bold.mb-3.text-center.text-lg-left Member
+        .white.z-depth-1.px-2.pt-3.pb-0.members-panel-1.scrollbar-light-blue
+          ul.list-unstyled.friend-list
+            li.active.grey.lighten-3.p-2
+              a.d-flex.justify-content-between(href='#')
+                img.avatar.rounded-circle.d-flex.align-self-center.mr-2.z-depth-1(src='https://mdbootstrap.com/img/Photos/Avatars/avatar-8.jpg', alt='avatar')
+                .text-small
+                  strong John Doe
+                  p.last-message.text-muted Hello, Are you there?
+                .chat-footer
+                  p.text-smaller.text-muted.mb-0 Just now
+                  span.badge.badge-danger.float-right 1
+            li.p-2
+              a.d-flex.justify-content-between(href='#')
+                img.avatar.rounded-circle.d-flex.align-self-center.mr-2.z-depth-1(src='https://mdbootstrap.com/img/Photos/Avatars/avatar-1.jpg', alt='avatar')
+                .text-small
+                  strong Danny Smith
+                  p.last-message.text-muted Lorem ipsum dolor sit.
+                .chat-footer
+                  p.text-smaller.text-muted.mb-0 5 min ago
+                  span.text-muted.float-right
+                    i.fas.fa-mail-reply(aria-hidden='true')
+            li.p-2
+              a.d-flex.justify-content-between(href='#')
+                img.avatar.rounded-circle.d-flex.align-self-center.mr-2.z-depth-1(src='https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg', alt='avatar')
+                .text-small
+                  strong Alex Steward
+                  p.last-message.text-muted Lorem ipsum dolor sit.
+                .chat-footer
+                  p.text-smaller.text-muted.mb-0 Yesterday
+                  span.text-muted.float-right
+                    i.fas.fa-mail-reply(aria-hidden='true')
+            li.p-2
+              a.d-flex.justify-content-between(href='#')
+                img.avatar.rounded-circle.d-flex.align-self-center.mr-2.z-depth-1(src='https://mdbootstrap.com/img/Photos/Avatars/avatar-3.jpg', alt='avatar')
+                .text-small
+                  strong Ashley Olsen
+                  p.last-message.text-muted Lorem ipsum dolor sit.
+                .chat-footer
+                  p.text-smaller.text-muted.mb-0 Yesterday
+                  span.text-muted.float-right
+                    i.fas.fa-mail-reply(aria-hidden='true')
+            li.p-2
+              a.d-flex.justify-content-between(href='#')
+                img.avatar.rounded-circle.d-flex.align-self-center.mr-2.z-depth-1(src='https://mdbootstrap.com/img/Photos/Avatars/avatar-4.jpg', alt='avatar')
+                .text-small
+                  strong Kate Moss
+                  p.last-message.text-muted Lorem ipsum dolor sit.
+                .chat-footer
+                  p.text-smaller.text-muted.mb-0 Yesterday
+                  span.text-muted.float-right
+                    i.fas.fa-mail-reply(aria-hidden='true')
+            li.p-2
+              a.d-flex.justify-content-between(href='#')
+                img.avatar.rounded-circle.d-flex.align-self-center.mr-2.z-depth-1(src='https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg', alt='avatar')
+                .text-small
+                  strong Lara Croft
+                  p.last-message.text-muted Lorem ipsum dolor sit.
+                .chat-footer
+                  p.text-smaller.text-muted.mb-0 Yesterday
+                  span.text-muted.float-right
+                    i.fas.fa-mail-reply(aria-hidden='true')
+            li.p-2
+              a.d-flex.justify-content-between(href='#')
+                img.avatar.rounded-circle.d-flex.align-self-center.mr-2.z-depth-1(src='https://mdbootstrap.com/img/Photos/Avatars/avatar-6.jpg', alt='avatar')
+                .text-small
+                  strong Brad Pitt
+                  p.last-message.text-muted Lorem ipsum dolor sit.
+                .chat-footer
+                  p.text-smaller.text-muted.mb-0 5 min ago
+                  span.text-muted.float-right
+                    i.fas.fa-check(aria-hidden='true')
+            li.p-2
+              a.d-flex.justify-content-between(href='#')
+                img.avatar.rounded-circle.d-flex.align-self-center.mr-2.z-depth-1(src='https://mdbootstrap.com/img/Photos/Avatars/img(3).jpg.jpg', alt='avatar')
+                .text-small
+                  strong Ken Ditto
+                  p.last-message.text-muted Lorem ipsum dolor sit.
+                .chat-footer
+                  p.text-smaller.text-muted.mb-0 Yesterday
+                  span.text-muted.float-right
+                    i.fas.fa-mail-reply(aria-hidden='true')
+            li.p-2
+              a.d-flex.justify-content-between(href='#')
+                img.avatar.rounded-circle.d-flex.align-self-center.mr-2.z-depth-1(src='https://mdbootstrap.com/img/Photos/Avatars/img(2).jpg.jpg', alt='avatar')
+                .text-small
+                  strong Marta Wozniak
+                  p.last-message.text-muted Lorem ipsum dolor sit.
+                .chat-footer
+                  p.text-smaller.text-muted.mb-0 Yesterday
+                  span.text-muted.float-right
+                    i.fas.fa-mail-reply(aria-hidden='true')
+      // Grid column
+      // Grid column
+      .col-md-6.col-xl-8.pl-md-3.px-lg-auto.px-0
+        .chat-message
+          ul.list-unstyled.chat-1.scrollbar-light-blue
+            li.d-flex.justify-content-between.mb-4
+              img.avatar.rounded-circle.mr-2.ml-lg-3.ml-0.z-depth-1(src='https://mdbootstrap.com/img/Photos/Avatars/avatar-6.jpg', alt='avatar')
+              .chat-body.white.p-3.ml-2.z-depth-1
+                .header
+                  strong.primary-font Brad Pitt
+                  small.pull-right.text-muted
+                    i.far.fa-clock
+                    |  12 mins ago
+                hr.w-100
+                p.mb-0
+                  | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                  | labore et dolore magna aliqua.
+            li.d-flex.justify-content-between.mb-4
+              .chat-body.white.p-3.z-depth-1
+                .header
+                  strong.primary-font Lara Croft
+                  small.pull-right.text-muted
+                    i.far.fa-clock
+                    |  13 mins ago
+                hr.w-100
+                p.mb-0
+                  | Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
+                  | laudantium.
+              img.avatar.rounded-circle.mr-0.ml-3.z-depth-1(src='https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg', alt='avatar')
+            li.d-flex.justify-content-between.mb-4
+              img.avatar.rounded-circle.mr-2.ml-lg-3.ml-0.z-depth-1(src='https://mdbootstrap.com/img/Photos/Avatars/avatar-6.jpg', alt='avatar')
+              .chat-body.white.p-3.ml-2.z-depth-1
+                .header
+                  strong.primary-font Brad Pitt
+                  small.pull-right.text-muted
+                    i.far.fa-clock
+                    |  12 mins ago
+                hr.w-100
+                p.mb-0
+                  | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                  | labore et dolore magna aliqua.
+            li.d-flex.justify-content-between.mb-4
+              .chat-body.white.p-3.z-depth-1
+                .header
+                  strong.primary-font Lara Croft
+                  small.pull-right.text-muted
+                    i.far.fa-clock
+                    |  13 mins ago
+                hr.w-100
+                p.mb-0
+                  | Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
+                  | laudantium.
+              img.avatar.rounded-circle.mr-0.ml-3.z-depth-1(src='https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg', alt='avatar')
+            li.d-flex.justify-content-between.mb-4.pb-3
+              img.avatar.rounded-circle.mr-2.ml-lg-3.ml-0.z-depth-1(src='https://mdbootstrap.com/img/Photos/Avatars/avatar-6.jpg', alt='avatar')
+              .chat-body.white.p-3.ml-2.z-depth-1
+                .header
+                  strong.primary-font Brad Pitt
+                  small.pull-right.text-muted
+                    i.far.fa-clock
+                    |  12 mins ago
+                hr.w-100
+                p.mb-0
+                  | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                  | labore et dolore magna aliqua.
+          .white
+            .form-group.basic-textarea
+              textarea#exampleFormControlTextarea2.form-control.pl-2.my-0(rows='3', placeholder='Type your message here...')
+          button.btn.btn-outline-pink.btn-rounded.btn-sm.waves-effect.waves-dark.float-right(type='button') Send
+          button.btn.btn-outline-pink.btn-rounded.btn-sm.waves-effect.waves-dark.float-right(type='button') Send2
+      // Grid column
+    // Grid row
