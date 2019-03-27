@@ -1,0 +1,11 @@
+extends layout
+
+block content
+    h1.text-info.text-center Войти
+    .row.justify-content-center
+        form(action="").col-sm-6
+            .form-group
+                input#email.form-control(type="email", name="email", placeholder="Введите email")
+            .form-group
+                input#password.form-control(type="password", name="password", placeholder="Введите пароль")
+            button.btn.btn-info(type="submit") Войти

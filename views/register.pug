@@ -1,0 +1,15 @@
+extends layout
+
+block content
+    h1.text-info.text-center Регистрация
+    .row.justify-content-center
+        form(action="").col-sm-6
+            .form-group
+                input#email.form-control(type="email", name="email", placeholder="Введите email")
+            .form-group
+                input#name.form-control(type="text", name="name", placeholder="Введите имя")
+            .form-group
+                input#password.form-control(type="password", name="password", placeholder="Введите пароль")
+            .form-group
+                input#confirmPassword.form-control(type="password", name="confirmPassword", placeholder="Повторите пароль")
+            button.btn.btn-info(type="submit") Зарегистрироватся

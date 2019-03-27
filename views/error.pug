@@ -1,0 +1,6 @@
+extends layout
+
+block content
+  h1.text-warning.text-center= message
+  h2.text-warning.text-center= error.status
+  pre.text-info #{error.stack}
