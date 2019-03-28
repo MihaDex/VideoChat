@@ -14,13 +14,13 @@ block content
             .white.z-depth-1.px-2.pt-3.pb-0.members-panel-1.scrollbar-light-blue
               ul.list-unstyled.friend-list
                 li.active.grey.lighten-3.p-2(ng-repeat="user in users")
-                  a.d-flex.justify-content-between(href='#')
+                  a.d-flex.justify-content-between(href='#',ng-click="call()",data-toggle="modal", data-target="#exampleModalCenter")
                     img.avatar.rounded-circle.d-flex.align-self-center.mr-2.z-depth-1(src='/images/avatar.png', width="50", height="50", alt='avatar')
                     .text-small
                       strong {{user.name}}
                       p.last-message.text-muted {{user.msg}}
                     .chat-footer
-                      p.text-smaller.text-muted.mb-0 сейчас
+                      p.text-smaller.mb-0.text-success онлайн
                       // span.badge.badge-danger.float-right 1
               
           // Grid column
@@ -28,23 +28,37 @@ block content
           .col-md-6.col-xl-8.pl-md-3.px-lg-auto.px-0
             .chat-message
               ul.list-unstyled.chat-1.scrollbar-light-blue
-                li.d-flex.justify-content-between.mb-4(ng-repeat="user in users")
+                li.d-flex.justify-content-between.mb-4(ng-repeat="message in messages")
                   img.avatar.rounded-circle.mr-2.ml-lg-3.ml-0.z-depth-1(src='/images/avatar.png', width="50", height="50", alt='avatar')
                   .chat-body.white.p-3.ml-2.z-depth-1
                     .header
-                      strong.primary-font {{user.name}}
-                      small.pull-right.text-muted
+                      strong.primary-font {{message.name}}
+                      small.pull-right.text-success
                         i.far.fa-clock
-                        |  сейчас
+                        |  онлайн
                     hr.w-100
                     p.mb-0
-                      | {{user.msg}}
+                      | {{message.msg}}
                 
               .white
                 .form-group.basic-textarea
-                  textarea#exampleFormControlTextarea2.form-control.pl-2.my-0(rows='3', placeholder='Написать сообщение...')
-              button.btn.btn-outline-pink.btn-rounded.btn-sm.waves-effect.waves-dark.float-right(type='button') Отправить
+                  textarea#exampleFormControlTextarea2.form-control.pl-2.my-0(rows='3', placeholder='Написать сообщение...',ng-model="$parent.inputMsg")
+              button.btn.btn-outline-pink.btn-rounded.btn-sm.waves-effect.waves-dark.float-right(type='button', ng-click='send()') Отправить
               //button.btn.btn-outline-pink.btn-rounded.btn-sm.waves-effect.waves-dark.float-right(type='button') Send2
           // Grid column
         // Grid row
+        // Modal
+  #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
+    .modal-dialog.modal-dialog-centered(role='document')
+      .modal-content
+        .modal-header
+          h5#exampleModalLongTitle.modal-title Видео чат
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') &times;
+        .modal-body
+          | ...
+        .modal-footer
+          button.btn.btn-secondary(type='button', data-dismiss='modal') Закрыть
+          button.btn.btn-success(type='button') Звонить
+
         script(src="/socket.io/socket.io.js")
