@@ -24,12 +24,14 @@
                     };
                 
                     var getToken = function () {
+                  
                       return $window.localStorage['VideoChat'];
                     };
                 
                     var isLoggedIn = function() {
+                  
                       var token = getToken();
-                
+                    
                       if(token){
                         var payload = JSON.parse($window.atob(token.split('.')[1]));
                 
@@ -130,7 +132,8 @@
                       authentication
                         .login($scope.credentials,function(data){
                           authentication.saveToken(data.data.token);
-                          authentication.goChat();
+                          //authentication.goChat();
+                          location.pathname="/chat";
                         },function(err){
                             $scope.formError = err.data.message;
                         });

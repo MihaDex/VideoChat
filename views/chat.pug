@@ -1,46 +1,50 @@
 extends layout
 
 block content
- .card.rare-wind-gradient.chat-room(ng-controller="chatCtrl")
-  .card-body
-    // Grid row
-    .row.px-lg-2.px-2
-      // Grid column
-      .col-md-6.col-xl-4.px-0
-        h6.font-weight-bold.mb-3.text-center.text-lg-left Member
-        .white.z-depth-1.px-2.pt-3.pb-0.members-panel-1.scrollbar-light-blue
-          ul.list-unstyled.friend-list
-            li.active.grey.lighten-3.p-2(ng-repeat="user in users")
-              a.d-flex.justify-content-between(href='#')
-                img.avatar.rounded-circle.d-flex.align-self-center.mr-2.z-depth-1(src='/images/avatar.png', width="50", height="50", alt='avatar')
-                .text-small
-                  strong {{user.name}}
-                  p.last-message.text-muted {{user.msg}}
-                .chat-footer
-                  p.text-smaller.text-muted.mb-0 Just now
-                  span.badge.badge-danger.float-right 1
-           
-      // Grid column
-      // Grid column
-      .col-md-6.col-xl-8.pl-md-3.px-lg-auto.px-0
-        .chat-message
-          ul.list-unstyled.chat-1.scrollbar-light-blue
-            li.d-flex.justify-content-between.mb-4(ng-repeat="user in users")
-              img.avatar.rounded-circle.mr-2.ml-lg-3.ml-0.z-depth-1(src='/images/avatar.png', width="50", height="50", alt='avatar')
-              .chat-body.white.p-3.ml-2.z-depth-1
-                .header
-                  strong.primary-font {{user.name}}
-                  small.pull-right.text-muted
-                    i.far.fa-clock
-                    |  12 mins ago
-                hr.w-100
-                p.mb-0
-                  | {{user.msg}}
-            
-          .white
-            .form-group.basic-textarea
-              textarea#exampleFormControlTextarea2.form-control.pl-2.my-0(rows='3', placeholder='Type your message here...')
-          button.btn.btn-outline-pink.btn-rounded.btn-sm.waves-effect.waves-dark.float-right(type='button') Send
-          button.btn.btn-outline-pink.btn-rounded.btn-sm.waves-effect.waves-dark.float-right(type='button') Send2
-      // Grid column
-    // Grid row
+  .container(ng-controller="chatCtrl")
+    .row.text-center.justify-content-center(ng-if="!auth")
+      a.btn.bnt-lg.btn-success(href="/login") Авторизируйтесь, пожалуйста!
+    .card.rare-wind-gradient.chat-room(ng-if="auth") 
+      .card-body
+        // Grid row
+        .row.px-lg-2.px-2
+          // Grid column
+          .col-md-6.col-xl-4.px-0
+            h6.font-weight-bold.mb-3.text-center.text-lg-left Пользователи
+            .white.z-depth-1.px-2.pt-3.pb-0.members-panel-1.scrollbar-light-blue
+              ul.list-unstyled.friend-list
+                li.active.grey.lighten-3.p-2(ng-repeat="user in users")
+                  a.d-flex.justify-content-between(href='#')
+                    img.avatar.rounded-circle.d-flex.align-self-center.mr-2.z-depth-1(src='/images/avatar.png', width="50", height="50", alt='avatar')
+                    .text-small
+                      strong {{user.name}}
+                      p.last-message.text-muted {{user.msg}}
+                    .chat-footer
+                      p.text-smaller.text-muted.mb-0 сейчас
+                      // span.badge.badge-danger.float-right 1
+              
+          // Grid column
+          // Grid column
+          .col-md-6.col-xl-8.pl-md-3.px-lg-auto.px-0
+            .chat-message
+              ul.list-unstyled.chat-1.scrollbar-light-blue
+                li.d-flex.justify-content-between.mb-4(ng-repeat="user in users")
+                  img.avatar.rounded-circle.mr-2.ml-lg-3.ml-0.z-depth-1(src='/images/avatar.png', width="50", height="50", alt='avatar')
+                  .chat-body.white.p-3.ml-2.z-depth-1
+                    .header
+                      strong.primary-font {{user.name}}
+                      small.pull-right.text-muted
+                        i.far.fa-clock
+                        |  сейчас
+                    hr.w-100
+                    p.mb-0
+                      | {{user.msg}}
+                
+              .white
+                .form-group.basic-textarea
+                  textarea#exampleFormControlTextarea2.form-control.pl-2.my-0(rows='3', placeholder='Написать сообщение...')
+              button.btn.btn-outline-pink.btn-rounded.btn-sm.waves-effect.waves-dark.float-right(type='button') Отправить
+              //button.btn.btn-outline-pink.btn-rounded.btn-sm.waves-effect.waves-dark.float-right(type='button') Send2
+          // Grid column
+        // Grid row
+        script(src="/socket.io/socket.io.js")
