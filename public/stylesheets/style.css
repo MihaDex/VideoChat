@@ -32,3 +32,27 @@ background-color: #82B1FF; }
 background-image: -webkit-gradient(linear, left bottom, left top, from(#a8edea), to(#fed6e3));
 background-image: -webkit-linear-gradient(bottom, #a8edea 0%, #fed6e3 100%);
 background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%); }
+
+video { 
+    background: black; 
+    border: 1px solid gray; 
+ }
+ #localVideo { 
+    width: 150px; 
+    height: 150px; 
+    position: absolute; 
+    top: 15px; 
+    right: 15px; 
+ }
+   
+ #remoteVideo { 
+    width: 500px; 
+    height: 500px; 
+ }
+ .call-page { 
+    position: relative; 
+    display: block; 
+    margin: 0 auto; 
+    width: 500px; 
+    height: 500px; 
+ } 
