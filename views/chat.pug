@@ -14,7 +14,7 @@ block content
             .white.z-depth-1.px-2.pt-3.pb-0.members-panel-1.scrollbar-light-blue
               ul.list-unstyled.friend-list
                 li.active.grey.lighten-3.p-2(ng-repeat="user in users")
-                  a.d-flex.justify-content-between(href='#',ng-click="openCall(user.name)",data-toggle="modal", data-target="#exampleModalCenter")
+                  a.d-flex.justify-content-between(href='#',ng-click="openCall(user.id)",data-toggle="modal", data-target="#exampleModalCenter")
                     img.avatar.rounded-circle.d-flex.align-self-center.mr-2.z-depth-1(src='/images/avatar.png', width="50", height="50", alt='avatar')
                     .text-small
                       strong {{user.name}}
@@ -48,25 +48,25 @@ block content
           // Grid column
         // Grid row
         // Modal
-  #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
-    .modal-dialog.modal-dialog-centered(role='document')
-      .modal-content
-        .modal-header
-          h5#exampleModalLongTitle.modal-title Видео чат
-          button.close(type='button', data-dismiss='modal', aria-label='Close')
-            span(aria-hidden='true') &times;
-        .modal-body
-          .embed-responsive.embed-responsive-1by1
-            video#localVideo.video(autoplay='')
-            //- video#remoteVideo(autoplay='')
-            //- .row.text-center
-              //- .col-md-12
-              //-   input#callToUsernameInput(type='text', placeholder='username to call')
-              //-   button#callBtn.btn-success.btn Call
-              //-   button#hangUpBtn.btn-danger.btn Hang Up
+    #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
+      .modal-dialog.modal-dialog-centered(role='document')
+        .modal-content
+          .modal-header
+            h5#exampleModalLongTitle.modal-title Видео чат
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') &times;
+          .modal-body
+            .embed-responsive.embed-responsive-1by1
+              video#localVideo.video(autoplay='')
+              video#remoteVideo(autoplay='')
+              //- .row.text-center
+                //- .col-md-12
+                //-   input#callToUsernameInput(type='text', placeholder='username to call')
+                //-   button#callBtn.btn-success.btn Call
+                //-   button#hangUpBtn.btn-danger.btn Hang Up
 
-        .modal-footer
-          button.btn.btn-danger(type='button', data-dismiss='modal') Закрыть
-          button.btn.btn-success(type='button',ng-click="callBtn()") Звонить
+          .modal-footer
+            button.btn.btn-danger(type='button', data-dismiss='modal') Закрыть
+            button.btn.btn-success(type='button',ng-click="callBtn()") Звонить
 
-        script(src="/socket.io/socket.io.js")
+          script(src="/socket.io/socket.io.js")
