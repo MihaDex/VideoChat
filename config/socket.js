@@ -26,11 +26,14 @@ module.exports = function(io){
   })).on('authenticated', function(socket) {
 
     getUsers = function(room){
+        console.log(room);
         users = [];
-        for (var key in io.sockets.adapter.rooms[room].sockets) {
-            if(io.sockets.sockets[key].decoded_token.name){
-            users.push({name: io.sockets.sockets[key].decoded_token.name, id:io.sockets.sockets[key].id, msg: ""});
-        }}
+        if('sockets' in io.sockets.adapter.rooms[room]){
+            for (var key in io.sockets.adapter.rooms[room].sockets) {
+                if(io.sockets.sockets[key].decoded_token.name){
+                users.push({name: io.sockets.sockets[key].decoded_token.name, id:io.sockets.sockets[key].id, msg: ""});
+            }}
+        }
     }
 
     // if(users.length == 0){
@@ -78,11 +81,11 @@ module.exports = function(io){
             io.to(room).emit('openCall', 'test');
 
         })
-        socket.on('leaveall', function(){
-            socket.leave('all');
-            getUsers('all');
-            io.to('all').emit('users', users);
-        })
+        // socket.on('leaveall', function(){
+        //     socket.leave('all');
+        //     getUsers('all');
+        //     io.to('all').emit('users', users);
+        // })
         socket.on('serverSend', function(data){
             
             console.log(data);
