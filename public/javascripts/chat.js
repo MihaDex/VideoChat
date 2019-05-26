@@ -64,16 +64,16 @@
                     socket.on('openCall', function(msg){
                         // console.log(msg);
                         // socket.emit('pm','answer');
-                        // var constraints = { audio: true, video: { width: 1280, height: 720 } }; 
+                        var constraints = { audio: true, video: { width: 1280, height: 720 } }; 
 
                         socket.emit('leaveall');
 
                         $("#exampleModalCenter").modal('show');
                             
-                        var constraints = {video: true }; 
+                        //var constraints = {video: true }; 
                         
-                        // navigator.mediaDevices.getUserMedia(constraints)
-                        navigator.mediaDevices.getDisplayMedia(constraints)
+                        navigator.mediaDevices.getUserMedia(constraints)
+                        //navigator.mediaDevices.getDisplayMedia(constraints)
                         .then(function(mediaStream) {
                         var video = document.querySelector('video');
                         video.srcObject = mediaStream;
@@ -152,11 +152,11 @@
                     id: id,
                 });
 
-                // var constraints = { audio: true, video: { width: 1280, height: 720 } }; 
-                var constraints = {video: true }; 
+                var constraints = { audio: true, video: { width: 1280, height: 720 } }; 
+                //var constraints = {video: true }; 
                 
-                // navigator.mediaDevices.getUserMedia(constraints)
-                navigator.mediaDevices.getDisplayMedia(constraints)
+                navigator.mediaDevices.getUserMedia(constraints)
+                //navigator.mediaDevices.getDisplayMedia(constraints)
                 .then(function(mediaStream) {
                 var video = document.querySelector('video');
                 video.srcObject = mediaStream;
