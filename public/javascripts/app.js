@@ -4,6 +4,22 @@
                 .controller('loginCtrl', loginCtrl)
                 .service('authentication', authentication)
 
+        function requestPermission(){
+          return new Promise(function(resolve,reject){
+            const permissionResult = Notification.requestPermission(function(result){
+              resolve(result);
+            });
+            if (permissionResult){
+              permissionResult.then(resolve, reject);
+            }
+          })
+          .then(function(permissionResult){
+            if(permissionResult !== 'granted'){
+              throw new Error('Permission not granted.');
+            }
+          });
+        }
+        requestPermission();
         function authentication ($http, $window) {
 
                     var goChat = function(){
