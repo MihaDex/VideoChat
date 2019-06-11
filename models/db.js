@@ -46,3 +46,4 @@ process.on('SIGTERM', function() {
 });
 
 require('./users.js');
+require('./messages.js');

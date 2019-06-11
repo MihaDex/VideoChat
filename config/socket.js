@@ -1,8 +1,43 @@
 var socketioJwt   = require("socketio-jwt");
+
+var mongoose = require('mongoose');
+var Message = mongoose.model('Message');
+
+var message = new Message();
+
 var users = [];
 var messages = [];
+var rooms =['all','one','two'];
 var getUsers;
+var checkUsers;
 var room = '';
+
+function createMessage(text, socket, callback){
+    var room = socket.currentRoom;
+    var message = new Message();
+    message.room = room;
+    message.author = socket.decoded_token.name+" "+socket.decoded_token.email;
+    message.text = text; 
+    message.save(function(err){
+        if(err){
+            socket.emit("error",err);
+            callback(false);
+        } else {
+            socket.emit("messages", {"type":"ok"});
+            callback(true);
+        }
+    })
+}
+
+function getMessages(room, callback){
+    Message.find({"room": room}, function(err, messages){
+        if(err){
+            callback(err,true);
+        } else {
+            callback(messages.reverse());
+        }
+    })
+}
 module.exports = function(io){
     // io.use(socketioJwt.authorize({
     //     secret: process.env.JWT_SECRET,
@@ -24,7 +59,16 @@ module.exports = function(io){
     secret: process.env.JWT_SECRET,
     timeout: 15000 // 15 seconds to send the authentication message
   })).on('authenticated', function(socket) {
-
+    getMessages('all',function(status){
+        if(status){
+            getMessages('all',function(msg,err=false){
+                if(err){
+                    socket.emit("error",msg);
+                }else{
+                    socket.emit("messages",msg);
+                }
+            });
+        }});
     getUsers = function(room){
         console.log(room);
         users = [];
@@ -34,6 +78,22 @@ module.exports = function(io){
                 users.push({name: io.sockets.sockets[key].decoded_token.name, id:io.sockets.sockets[key].id, msg: ""});
             }}
         }
+    }
+
+    checkUsers = function(room){
+        var visiters =[];
+        io.of('/').in(room).clients((error, clients) => {
+            if (error) throw error;
+            console.log(clients);
+            if(clients.length > 0){
+                for(client in clients){
+                    if("decoded_token" in io.sockets.sockets[clients[client]]){
+                        visiters.push({name: io.sockets.sockets[clients[client]].decoded_token.name+" "+io.sockets.sockets[clients[client]].decoded_token.email, id:io.sockets.sockets[clients[client]].id, msg: ""});
+                    }
+                }
+                io.sockets.in(room).emit('users', visiters);
+            }
+          });
     }
 
     // if(users.length == 0){
@@ -48,8 +108,10 @@ module.exports = function(io){
     //     }
     // });
     socket.join('all');
-    getUsers('all');
-    console.log(users);
+    socket.currentRoom = "all";
+    // getUsers('all');
+    // console.log(users);
+    checkUsers('all');
         // console.log(socket.id);
         // if(key.id  !=  socket.id){
         //     console.log('test');
@@ -70,6 +132,27 @@ module.exports = function(io){
             // socket.broadcast.emit('send',obj);
 
         }
+        socket.on('join', function(room){
+            console.log(room);
+            for(i in rooms){
+                if(rooms[i] == room){
+                    socket.join(room);
+                    socket.currentRoom = room;
+                    checkUsers(rooms[i]);
+                    getMessages(rooms[i],function(msg,err=false){
+                        if(err){
+                            socket.emit("error",msg);
+                        }else{
+                            socket.emit('messages', msg);
+                        }
+                    });
+                }else{
+                    socket.leave(rooms[i]);
+                    checkUsers(rooms[i]);                   
+                }
+            }
+            
+        });
         socket.on('roomJoin', function(msg){
             room = msg.name;
             socket.join(room);
@@ -140,8 +223,19 @@ module.exports = function(io){
         });
 
         socket.on('message', function(msg){
-            messages.push({name: socket.decoded_token.name, msg: msg});
-            io.sockets.emit('messageToClients',messages);
+            // messages.push({name: socket.decoded_token.name, msg: msg});
+            // io.sockets.emit('messageToClients',messages);
+            createMessage(msg,socket,function(status){
+                if(status){
+                    getMessages(socket.currentRoom,function(msg,err=false){
+                        if(err){
+                            socket.emit("error",msg);
+                        }else{
+                            io.sockets.emit("messages",msg);
+                        }
+                    });
+                }
+            });
         });
         socket.on('serverSend1', function(data){
             switch (data.type) {
@@ -219,10 +313,11 @@ module.exports = function(io){
 
          
 
-        io.emit('users', users);
+        // io.emit('users', users);
 
         socket.on('disconnect', function() {
-            users.splice(users.indexOf(socket), 1);
+            // users.splice(users.indexOf(socket), 1);
+            checkUsers('all');
         });
     })
 }

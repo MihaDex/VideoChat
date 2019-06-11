@@ -16,6 +16,7 @@ router.get('/',ctrlIndex.index);
 router.get('/register', ctrlRegister.index);
 router.get('/login', ctrlLogin.index);
 router.get('/chat', ctrlChat.index);
+router.get('/test', ctrlChat.test);
 
 /* POST  pages. */
 router.post('/register', ctrlRegister.register);

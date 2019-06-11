@@ -31,17 +31,40 @@
         }else{
             $scope.auth=false;
         }
+        $scope.chanels = [
+            {
+                'name':'Общий',
+                'room':'all'
+            },
+            {
+                'name':'Первый',
+                'room':'one'
+            }, 
+            {
+                'name':'Второй',
+                'room':'two'
+            },
+        ];
         $scope.error='';
         $scope.inputMsg='';
         var serverSend;
         var roomJoin;
         var socket = io();
-       
 
             socket.on('connect', function () {
                 socket
                   .emit('authenticate', {token: authentication.getToken()}) //send the jwt
                   .on('authenticated', function () {
+
+                    socket.on("error", function(err){
+                        console.log(err);
+                    });
+                    socket.on("messages", function(msg){
+                        
+                        $scope.$apply(function(){
+                            $scope.messages = msg;
+                        })
+                    });
 
                     socket.on('users', function(data){
                         
@@ -122,6 +145,9 @@
                             socket.emit('roomJoin', {'name': obj.id});
                         }
                     };
+                    $scope.openChanel = function(room){
+                        socket.emit('join',room);
+                    };
 
                     serverSend = function(msg){
                         // if(callName){
@@ -134,7 +160,8 @@
                       $scope.errors='';
                       if($scope.inputMsg){
                         socket.emit('message',$scope.inputMsg)
-                      }
+                      };
+                      $scope.inputMsg = "";
                     }
 
                   })
@@ -212,6 +239,8 @@
             pc.onicecandidate = null; 
             pc.onaddstream = null; 
         }
+        
+
 
         //when somebody sends us an offer 
         function handleOffer(offer) { 

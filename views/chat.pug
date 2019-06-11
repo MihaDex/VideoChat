@@ -8,8 +8,18 @@ block content
       .card-body
         // Grid row
         .row.px-lg-2.px-2
+
+          .col-md-2.col-xl-2.px-0
+              h6.font-weight-bold.mb-3.text-center.text-lg-left Каналы
+              .white.z-depth-1.px-2.pt-3.pb-0.members-panel-1.scrollbar-light-blue
+                ul.list-unstyled.friend-list
+                  li.active.grey.lighten-3.p-2(ng-repeat="chanel in chanels")
+                    a.d-flex.justify-content-between(href='#',ng-click="openChanel(chanel.room)")
+                      .text-small
+                        strong {{chanel.name}}
+                     
           // Grid column
-          .col-md-6.col-xl-4.px-0
+          .col-md-4.col-xl-4.px-0
             h6.font-weight-bold.mb-3.text-center.text-lg-left Пользователи
             .white.z-depth-1.px-2.pt-3.pb-0.members-panel-1.scrollbar-light-blue
               ul.list-unstyled.friend-list
@@ -25,20 +35,20 @@ block content
               
           // Grid column
           // Grid column
-          .col-md-6.col-xl-8.pl-md-3.px-lg-auto.px-0
+          .col-md-6.col-xl-6.pl-md-3.px-lg-auto.px-0
             .chat-message
               ul.list-unstyled.chat-1.scrollbar-light-blue
                 li.d-flex.justify-content-between.mb-4(ng-repeat="message in messages")
                   img.avatar.rounded-circle.mr-2.ml-lg-3.ml-0.z-depth-1(src='/images/avatar.png', width="50", height="50", alt='avatar')
                   .chat-body.white.p-3.ml-2.z-depth-1
                     .header
-                      strong.primary-font {{message.name}}
+                      strong.primary-font {{message.author}}
                       small.pull-right.text-success
                         i.far.fa-clock
-                        |  онлайн
+                        |  {{message.date|date:'hh:mm:ss dd-MM-yyyy'}}
                     hr.w-100
                     p.mb-0
-                      | {{message.msg}}
+                      | {{message.text}}
                 
               .white
                 .form-group.basic-textarea
