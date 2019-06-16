@@ -2,6 +2,7 @@ var socketioJwt   = require("socketio-jwt");
 
 var mongoose = require('mongoose');
 var Message = mongoose.model('Message');
+var Videos = mongoose.model('Video');
 
 var message = new Message();
 
@@ -125,9 +126,12 @@ module.exports = function(io){
         //     // users.push({name: io.sockets.sockets[key].decoded_token.name, msg: "", id: socket.id});
         //     }
 
+        socket.on('getauthor', function(){
+            socket.emit('getauthor', socket.decoded_token.name+" "+socket.decoded_token.email);
+        })
         function sendTo(room,obj){
-            console.log('typey: ',obj.type);
-            console.log(obj);
+            // console.log('typey: ',obj.type);
+            // console.log(obj);
             socket.broadcast.to(room).emit('send',obj);
             // socket.broadcast.emit('send',obj);
 
@@ -171,13 +175,25 @@ module.exports = function(io){
         // })
         socket.on('serverSend', function(data){
             
-            console.log(data);
+            // console.log(data);
             switch (data.type) {
                 case "offer": 
+
+                var videos = new Videos();
+                videos.room = socket.currentRoom;
+                videos.save(function(err) {
+                    if (err) {
+                        console.log(err);
+                        
+                    } else {
+                        console.log("ok "+ videos._id+" room "+room);
+                        io.sockets.in(room).emit('videoid', videos._id);
+                    }
+                  });
                 
                 sendTo(room,{ 
                     type: "offer", 
-                    offer: data.offer
+                    offer: data.offer,
                 }); 
             
                 

@@ -1,0 +1,45 @@
+extends layout
+
+block navbar
+  ul.navbar-nav.ml-3.mr-auto.mt-2.mt-lg-0
+    li.nav-item.active
+      a.btn.btn-sm.btn-info(href="/chat",role="button") Чат
+
+
+
+block content
+  .container(ng-controller="filesCtrl")
+    .row.text-center.justify-content-center(ng-if="!auth")
+      a.btn.bnt-lg.btn-success(href="/login") Авторизируйтесь, пожалуйста!
+    .card.rare-wind-gradient.chat-room(ng-if="auth") 
+      .card-body
+        // Grid row
+        .row.px-lg-2.px-2
+          .col-md-12.col-xl-12.px-0
+              h6.font-weight-bold.mb-3.text-center.text-lg-left Видео
+              .white.z-depth-1.px-2.pt-3.pb-0.members-panel-1.scrollbar-light-blue
+                .table-responsive
+                  table.table
+                    caption Список видеофайлов
+                    thead
+                      tr
+                        th(scope='col') Канал
+                          select.ml-2(value="all",ng-model="chanel")
+                            option(value="all",name="Общий") Общий
+                            option(value="one",name="Первый") Первый
+                            option(value="two",name="Второй") Второй
+                        th(scope='col') Дата
+                          input.ml-2(type="text",ng-model="date")
+                        th(scope='col') Авторы
+                          input.ml-2(type="text",ng-model="author")
+                    tbody
+                      tr(ng-repeat="video in videos | filter : chanel | filter : date | filter : author")
+                        td {{video.room|roomname}}
+                        td {{video.date|date:'hh:mm:ss dd-MM-yyyy'}}
+                        td 
+                          span(ng-repeat="obj in video.videos")
+                            a.mr-3(href="{{obj.url}}") {{obj.author}}
+
+          
+
+          

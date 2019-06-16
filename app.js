@@ -7,6 +7,7 @@ var logger = require('morgan');
 var passport = require('passport');
 require('./models/db');
 require('./config/passport');
+global.appRoot = path.resolve(__dirname);
 
 var indexRouter = require('./routes/index');
 var app = express();

@@ -5,9 +5,10 @@ html(ng-app="VideoChat")
     link(rel="stylesheet", href="/libs/bootstrap/css/bootstrap.min.css")
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    nav.navbar.navbar-light.bg-ligh
+    nav.navbar.navbar-light.bg-ligh.d-flex.justify-content-start
       a.nabar-brand(href="/")
         img(src="/images/logo.svg", width="100" height="70", alt="logo", srcset="")
+      block navbar
     block content
 
   script(src="/libs/angular/angular.js")
@@ -16,5 +17,7 @@ html(ng-app="VideoChat")
   script(src="/libs/jquery/jquery.js")
   script(src="/libs/popperjs/popper.js")
   script(src="/libs/bootstrap/js/bootstrap.min.js")
+  script(src="/libs/recordrtc/RecordRTC.js")
   script(src="/javascripts/app.js")
   script(src="/javascripts/chat.js")
+  script(src="/javascripts/files.js")

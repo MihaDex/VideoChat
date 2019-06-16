@@ -1,5 +1,10 @@
 extends layout
 
+block navbar
+  ul.navbar-nav.ml-3.mr-auto.mt-2.mt-lg-0
+    li.nav-item.active
+      a.btn.btn-sm.btn-info(href="/files",role="button") Файлы
+
 block content
   .container(ng-controller="chatCtrl")
     .row.text-center.justify-content-center(ng-if="!auth")
@@ -17,7 +22,7 @@ block content
                     a.d-flex.justify-content-between(href='#',ng-click="openChanel(chanel.room)")
                       .text-small
                         strong {{chanel.name}}
-                     
+                                     
           // Grid column
           .col-md-4.col-xl-4.px-0
             h6.font-weight-bold.mb-3.text-center.text-lg-left Пользователи
@@ -53,18 +58,20 @@ block content
               .white
                 .form-group.basic-textarea
                   textarea#exampleFormControlTextarea2.form-control.pl-2.my-0(rows='3', placeholder='Написать сообщение...',ng-model="$parent.inputMsg")
-              button.btn.btn-outline-pink.btn-rounded.btn-sm.waves-effect.waves-dark.float-right(type='button', ng-click='send()') Отправить
+              //button.btn.btn-outline-pink.btn-rounded.btn-sm.waves-effect.waves-dark.float-right(type='button', ng-click='send()') Отправить
+              form.form-inline.float-right
+                button.btn.btn-sm.btn-info(type='submit', ng-click='send()') Отправить
               //button.btn.btn-outline-pink.btn-rounded.btn-sm.waves-effect.waves-dark.float-right(type='button') Send2
           // Grid column
         // Grid row
         // Modal
-    #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
+    #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true', data-backdrop="static")
       .modal-dialog.modal-dialog-centered(role='document')
         .modal-content
           .modal-header
             h5#exampleModalLongTitle.modal-title Видео чат
-            button.close(type='button', data-dismiss='modal', aria-label='Close')
-              span(aria-hidden='true') &times;
+            //- button.close(type='button', data-dismiss='modal', aria-label='Close')
+            //-   span(aria-hidden='true') &times;
           .modal-body
             .embed-responsive.embed-responsive-1by1
               video#localVideo.video(autoplay='')
@@ -76,7 +83,9 @@ block content
                 //-   button#hangUpBtn.btn-danger.btn Hang Up
 
           .modal-footer
-            button.btn.btn-danger(type='button', data-dismiss='modal') Закрыть
+            
+            button.btn.btn-danger(type='button',ng-click="closeBtn()",data-dismiss='modal') Закрыть
             button.btn.btn-success(type='button',ng-click="callBtn()") Звонить
 
           script(src="/socket.io/socket.io.js")
+          

@@ -50,12 +50,20 @@
         var serverSend;
         var roomJoin;
         var socket = io();
+        $scope.recorder;
+        $scope.userchanel = 'all';
+        $scope.author = "";
 
             socket.on('connect', function () {
                 socket
                   .emit('authenticate', {token: authentication.getToken()}) //send the jwt
                   .on('authenticated', function () {
-
+                    socket.emit('getauthor');
+                    socket.on('getauthor', function(msg){
+                        $scope.$apply(function(){
+                            $scope.author = msg;
+                        });
+                    })
                     socket.on("error", function(err){
                         console.log(err);
                     });
@@ -98,13 +106,17 @@
                         navigator.mediaDevices.getUserMedia(constraints)
                         //navigator.mediaDevices.getDisplayMedia(constraints)
                         .then(function(mediaStream) {
+                        $scope.stream = mediaStream;
                         var video = document.querySelector('video');
                         video.srcObject = mediaStream;
                         video.onloadedmetadata = function(e) {
                             video.play();
                         };
+                        $scope.recorder = RecordRTC(mediaStream, {
+                            type: 'video'
+                        });
+                        $scope.recorder.startRecording();
 
-                       
                         pc = new PeerConnection(server,options);
                         pc.addStream(mediaStream);
                         pc.onaddstream = function (e) { 
@@ -125,6 +137,13 @@
                         .catch(function(err) { console.log(err.name + ": " + err.message); }); // always check for errors at the end.
                     })
 
+                    socket.on('videoid', function(id){
+                        console.log('videoid: '+id);
+                        $scope.$apply(function(){
+                            $scope.videoId= id;
+                        })
+                    })
+
                     socket.on('send',function(msg){
                         console.log(msg);
                         switch(msg.type){
@@ -135,7 +154,7 @@
                                 handleAnswer(msg.answer);
                                 break;
                             case "offer":
-                            handleOffer(msg.offer);
+                                handleOffer(msg.offer);
                             break;
                         }
                     })
@@ -147,6 +166,7 @@
                     };
                     $scope.openChanel = function(room){
                         socket.emit('join',room);
+                        $scope.userchanel = room;
                     };
 
                     serverSend = function(msg){
@@ -185,11 +205,16 @@
                 navigator.mediaDevices.getUserMedia(constraints)
                 //navigator.mediaDevices.getDisplayMedia(constraints)
                 .then(function(mediaStream) {
+                $scope.stream = mediaStream;
                 var video = document.querySelector('video');
                 video.srcObject = mediaStream;
                 video.onloadedmetadata = function(e) {
                     video.play();
                 };
+
+                $scope.localrecorder = RecordRTC(mediaStream, {
+                    type: 'video'
+                });
 
                 pc = new PeerConnection(server,options);
                 pc.addStream(mediaStream);
@@ -209,13 +234,17 @@
                 .catch(function(err) { console.log(err.name + ": " + err.message); }); // always check for errors at the end.
         }
         $scope.callBtn = function () { 
-            console.log('rew');
+            console.log('start record');
             // var callToUsername = callName;
             // if (callToUsername.length > 0) { 
              
             //    connectedUser = callToUsername;
                  
             //    // create an offer 
+
+                // $scope.localrecorder.startRecording();
+
+
                pc.createOffer(function (offer) { 
                 serverSend({ 
                      type: "offer", 
@@ -230,6 +259,13 @@
             
          };
         $scope.closeBtn = function(){
+            if('localrecorder' in $scope){
+                $scope.localrecorder.stopRecording(postFiles);
+            }
+            if('recorder' in $scope){
+                $scope.recorder.stopRecording(postFiles);
+            }
+            $scope.stream.getTracks().forEach(function(track){track.stop();console.log('123');});
             connectedUser = null; 
             remoteVideo.src = null; 
             serverSend({ 
@@ -240,7 +276,63 @@
             pc.onaddstream = null; 
         }
         
-
+        function postFiles() {
+            var blob = $scope.recorder.getBlob();
+            // getting unique identifier for the file name
+            var fileName = generateRandomString() + '.webm';
+            
+            var file = new File([blob], fileName, {
+                type: 'video/webm'
+            });
+            xhr('/uploadFile', file, function(responseText) {
+                var fileURL = JSON.parse(responseText).fileURL;
+                console.info('fileURL', fileURL);
+                // videoElement.src = fileURL;
+                // videoElement.play();
+                // videoElement.muted = false;
+                // videoElement.controls = true;
+                // document.querySelector('#footer-h2').innerHTML = '<a href="' + videoElement.src + '">' + videoElement.src + '</a>';
+            });
+            
+            // if(mediaStream) mediaStream.stop();
+        }
+        function xhr(url, data, callback) {
+            var request = new XMLHttpRequest();
+            request.onreadystatechange = function() {
+                if (request.readyState == 4 && request.status == 200) {
+                    callback(request.responseText);
+                }
+            };
+                    
+            // request.upload.onprogress = function(event) {
+            //     progressBar.max = event.total;
+            //     progressBar.value = event.loaded;
+            //     progressBar.innerHTML = 'Upload Progress ' + Math.round(event.loaded / event.total * 100) + "%";
+            // };
+                    
+            // request.upload.onload = function() {
+            //     percentage.style.display = 'none';
+            //     progressBar.style.display = 'none';
+            // };
+            request.open('POST', url);
+            var formData = new FormData();
+            formData.append('file', data);
+            // formData.append('room', $scope.userchanel);
+            formData.append('author', $scope.author);
+            formData.append('videoid', $scope.videoId);
+            request.send(formData);
+        }
+        // generating random string
+        function generateRandomString() {
+            if (window.crypto) {
+                var a = window.crypto.getRandomValues(new Uint32Array(3)),
+                    token = '';
+                for (var i = 0, l = a.length; i < l; i++) token += a[i].toString(36);
+                return token;
+            } else {
+                return (Math.random() * new Date().getTime()).toString(36).replace( /\./g , '');
+            }
+        }
 
         //when somebody sends us an offer 
         function handleOffer(offer) { 
