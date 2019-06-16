@@ -35,7 +35,7 @@ block content
                     tbody
                       tr(ng-repeat="video in videos | filter : chanel | filter : date | filter : author")
                         td {{video.room|roomname}}
-                        td {{video.date|date:'hh:mm:ss dd-MM-yyyy'}}
+                        td {{video.date|date:'HH:mm:ss dd-MM-yyyy'}}
                         td 
                           span(ng-repeat="obj in video.videos")
                             a.mr-3(href="{{obj.url}}") {{obj.author}}
