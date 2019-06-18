@@ -56,11 +56,9 @@ block content
                       | {{message.text}}
                 
               .white
-                .form-group.basic-textarea
-                  textarea#exampleFormControlTextarea2.form-control.pl-2.my-0(rows='3', placeholder='Написать сообщение...',ng-model="$parent.inputMsg")
-              //button.btn.btn-outline-pink.btn-rounded.btn-sm.waves-effect.waves-dark.float-right(type='button', ng-click='send()') Отправить
-              form.form-inline.float-right
-                button.btn.btn-sm.btn-info(type='submit', ng-click='send()') Отправить
+                form.form-group.basic-textarea(ng-submit='send()')
+                  input.form-control.pl-2.my-0(type="text",placeholder='Написать сообщение...',ng-model="$parent.inputMsg")
+                  input.btn.btn-sm.btn-info.mt-2.float-right(type='submit', ng-click='send()', value="Отправить")
               //button.btn.btn-outline-pink.btn-rounded.btn-sm.waves-effect.waves-dark.float-right(type='button') Send2
           // Grid column
         // Grid row
