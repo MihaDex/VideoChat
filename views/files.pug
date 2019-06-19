@@ -38,7 +38,9 @@ block content
                         td {{video.date|date:'HH:mm:ss dd-MM-yyyy'}}
                         td 
                           span(ng-repeat="obj in video.videos")
-                            a.mr-3(href="{{obj.url}}") {{obj.author}}
+                            p Автор: {{obj.author}}
+                            a(href="{{obj.url}}") Видео
+                            p Комментарий: {{obj.comment}}
 
           
 

@@ -13,6 +13,7 @@ var videosSchema = new mongoose.Schema({
       {
         author: String,
         url: String,
+        comment: String,
       }
     ],
   });

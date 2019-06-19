@@ -53,6 +53,15 @@
         $scope.recorder;
         $scope.userchanel = 'all';
         $scope.author = "";
+        $scope.saveComm = true;
+        $scope.comment = "";
+        $scope.noComment = function(){
+            $scope.comment = "";
+            closeBtn();
+        }
+        $scope.saveComment = function(){
+            closeBtn();
+        }
 
             socket.on('connect', function () {
                 socket
@@ -259,12 +268,13 @@
             
          };
         $scope.closeBtn = function(){
-            if('localrecorder' in $scope){
-                $scope.localrecorder.stopRecording(postFiles);
-            }
-            if('recorder' in $scope){
-                $scope.recorder.stopRecording(postFiles);
-            }
+            $("#modalCommentCenter").modal('show');
+            // if('localrecorder' in $scope){
+            //     $scope.localrecorder.stopRecording(postFiles);
+            // }
+            // if('recorder' in $scope){
+            //     $scope.recorder.stopRecording(postFiles);
+            // }
             $scope.stream.getTracks().forEach(function(track){track.stop();console.log('123');});
             connectedUser = null; 
             remoteVideo.src = null; 
@@ -274,6 +284,24 @@
             pc.close(); 
             pc.onicecandidate = null; 
             pc.onaddstream = null; 
+        }
+
+        function closeBtn(){
+            if('localrecorder' in $scope){
+                $scope.localrecorder.stopRecording(postFiles);
+            }
+            if('recorder' in $scope){
+                $scope.recorder.stopRecording(postFiles);
+            }
+            // $scope.stream.getTracks().forEach(function(track){track.stop();console.log('123');});
+            // connectedUser = null; 
+            // remoteVideo.src = null; 
+            // serverSend({ 
+            //     type: "leave" 
+            //  });  
+            // pc.close(); 
+            // pc.onicecandidate = null; 
+            // pc.onaddstream = null; 
         }
         
         function postFiles() {
@@ -320,6 +348,7 @@
             // formData.append('room', $scope.userchanel);
             formData.append('author', $scope.author);
             formData.append('videoid', $scope.videoId);
+            formData.append('comment', $scope.comment);
             request.send(formData);
         }
         // generating random string

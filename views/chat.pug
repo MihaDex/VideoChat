@@ -81,9 +81,23 @@ block content
                 //-   button#hangUpBtn.btn-danger.btn Hang Up
 
           .modal-footer
-            
+            input#check1(type="checkbox", ng-model="saveComm")
+            label(for="check1") Скачать видео после разговора
+            //- input#check2(type="checkbox", ng-model="saveToServer")
+            //- label(for="check2") Сохранить видео на сервер
             button.btn.btn-danger(type='button',ng-click="closeBtn()",data-dismiss='modal') Закрыть
             button.btn.btn-success(type='button',ng-click="callBtn()") Звонить
+          
+    #modalCommentCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='modalCommentCenterTitle', aria-hidden='true', data-backdrop="static")
+      .modal-dialog.modal-dialog-centered(role='document')
+        .modal-content
+          .modal-header
+            h5.modal-title Желаете оставить комментарий?            
+          .modal-body
+            textarea(name="Comment", cols="30", rows="10", ng-model="comment")
+          .modal-footer
+            button.btn.btn-danger(type='button',ng-click="noComment()",data-dismiss='modal') Закрыть
+            button.btn.btn-success(type='button',ng-click="saveComment()",data-dismiss='modal') Сохранить
 
           script(src="/socket.io/socket.io.js")
           

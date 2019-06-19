@@ -110,7 +110,7 @@ module.exports.uploadFile = function(request, response){
                 } else {
                     // getVideo = data;
                     console.log(data);
-                    data.videos.push({'author': fields.author, 'url': fileURL});
+                    data.videos.push({'author': fields.author, 'url': fileURL, 'comment': fields.comment});
             
                     data.save(function(err) {
                         if (err) {
