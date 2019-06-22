@@ -306,6 +306,9 @@
         
         function postFiles() {
             var blob = $scope.recorder.getBlob();
+            if($scope.saveComm){
+                invokeSaveAsDialog(blob);
+            }
             // getting unique identifier for the file name
             var fileName = generateRandomString() + '.webm';
             
