@@ -17,7 +17,7 @@
     "morgan": "~1.9.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "pug": "2.0.0-beta11",
+    "pug": "3.0.1",
     "recordrtc-nodejs": "^1.0.6",
     "socket.io": "^2.2.0",
     "socketio-jwt": "^4.5.0"
